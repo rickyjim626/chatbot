@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="p-6 bg-white dark:bg-gray-800 shadow-sm">
-        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">AI Chat</h1>
+        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">AI 助手</h1>
       </header>
       
       <main className="flex-grow flex flex-col items-center justify-center p-6">
@@ -113,7 +113,7 @@ export default function Home() {
       </main>
 
       <footer className="p-4 text-center text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 shadow-sm">
-        <p>&copy; 2024 AI Chat. 保留所有权利。</p>
+        <p>&copy; 2024 AI 助手. 保留所有权利。</p>
       </footer>
     </div>
   );
