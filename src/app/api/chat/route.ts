@@ -52,15 +52,30 @@ const SYSTEM_PROMPT = `你是XiaojinPro - 一个由小靳(xiaojin)创建的专�
 你的目标是提供有价值的帮助，展现专业性和温度感，促进用户对影视制作和AI技术的理解与学习。`;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  try {
+    console.log('Received request');
+    const { messages } = await req.json();
+    console.log('Parsed messages:', JSON.stringify(messages));
 
-  const chatCompletion = await openai.chat.completions.create({
-    model: MODEL_NAME,
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      ...messages
-    ],
-  });
+    console.log('Sending request to OpenAI API');
+    const chatCompletion = await openai.chat.completions.create({
+      model: MODEL_NAME,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...messages
+      ],
+    });
+    console.log('Received response from OpenAI API');
 
-  return NextResponse.json(chatCompletion.choices[0].message);
+    if (!chatCompletion.choices || !chatCompletion.choices[0] || !chatCompletion.choices[0].message) {
+      console.error('Invalid response structure:', JSON.stringify(chatCompletion));
+      throw new Error('Invalid response structure from OpenAI API');
+    }
+
+    console.log('Sending response back to client');
+    return NextResponse.json(chatCompletion.choices[0].message);
+  } catch (error) {
+    console.error('Error in chat route:', error);
+    return NextResponse.json({ error: '处理请求时发生错误: ' + (error as Error).message }, { status: 500 });
+  }
 }

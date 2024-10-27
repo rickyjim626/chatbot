@@ -25,27 +25,36 @@ export default function Home() {
     setInput('');
     setIsLoading(true);
 
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ messages: newMessages }),
-      });
+    let retries = 3;
+    while (retries > 0) {
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ messages: newMessages }),
+        });
 
-      if (!response.ok) {
-        throw new Error(`网络响应不正常: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`网络响应不正常: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setMessages([...newMessages, data]);
+        break; // 成功时跳出循环
+      } catch (error) {
+        console.error('Error:', error);
+        retries--;
+        if (retries === 0) {
+          setMessages([...newMessages, { role: 'assistant', content: `抱歉,发生了错误: ${(error as Error).message}. 请稍后再试。` }]);
+        } else {
+          console.log(`重试中... 剩余尝试次数: ${retries}`);
+        }
       }
-
-      const data = await response.json();
-      setMessages([...newMessages, data]);
-    } catch (error) {
-      console.error('Error:', error);
-      setMessages([...newMessages, { role: 'assistant', content: `抱歉,发生了错误: ${(error as Error).message}` }]);
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   return (
