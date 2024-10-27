@@ -49,15 +49,18 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
-      <header className="p-6 bg-white dark:bg-gray-800 shadow-sm">
-        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">临时AI助手</h1>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">由XiaojinPro提供</p>
+    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="p-4 bg-white dark:bg-gray-800 shadow-sm">
+        <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-200">XiaojinPro AI</h1>
+        <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">由小靳(xiaojin)创建的专业版应用程序</p>
       </header>
       
-      <main className="flex-grow flex flex-col items-center justify-center p-6">
-        <div className="max-w-3xl w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-          <div className="mb-6 h-[calc(100vh-400px)] overflow-y-auto">
+      <main className="flex-grow flex flex-col overflow-hidden">
+        <div className="flex-grow overflow-y-auto p-4">
+          <div className="max-w-3xl mx-auto">
+            <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+              XiaojinPro是小靳宇宙的一个工具，融合了影视制作专业知识和AI技术。
+            </p>
             {messages.map((message, index) => (
               <div key={index} className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
                 <div className={`inline-block p-3 rounded-2xl ${message.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'} max-w-[80%]`}>
@@ -100,7 +103,9 @@ export default function Home() {
             )}
             <div ref={messagesEndRef} />
           </div>
-          <form onSubmit={handleSubmit} className="flex">
+        </div>
+        <div className="p-4 bg-white dark:bg-gray-800">
+          <form onSubmit={handleSubmit} className="flex max-w-3xl mx-auto">
             <input
               type="text"
               value={input}
@@ -119,10 +124,10 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="p-4 text-center text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 shadow-sm">
-        <p>&copy; 2024 临时AI助手 by XiaojinPro. 保留所有权利。</p>
-        <p className="mt-2 text-xs">
-          使用说明：这个程序不会保存任何你输入的或收到的信息，这意味着你自己也看不到历史记录，更不会有人保存任何信息。请知悉。
+      <footer className="p-4 text-center text-xs text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 shadow-sm">
+        <p>&copy; 2024 XiaojinPro AI by 小靳同学. 保留所有权利。</p>
+        <p className="mt-1">
+          使用说明：本程序不会保存任何输入或接收的信息，无历史记录功能，确保您的隐私。
         </p>
       </footer>
     </div>
