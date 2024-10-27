@@ -61,7 +61,7 @@ export default function Home() {
     <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
       <header className="fixed top-0 left-0 right-0 z-10 p-2 bg-white dark:bg-gray-800 shadow-sm">
         <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-200">XiaojinPro AI</h1>
-        <p className="text-xs text-gray-600 dark:text-gray-400">由小靳(xiaojin)创建的专业版应用程序</p>
+        <p className="text-xs text-gray-600 dark:text-gray-400">小靳宇宙的专业AI助手</p>
       </header>
       
       <main className="flex-grow overflow-y-auto pt-16 pb-14">
