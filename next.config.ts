@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     config.externals = [...config.externals, 'canvas', 'jsdom'];
     return config;
   },
+  experimental: {
+    serverComponentsExternalPackages: ['openai'],
+  },
 };
 
 export default nextConfig;
