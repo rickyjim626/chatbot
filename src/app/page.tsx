@@ -62,11 +62,11 @@ export default function Home() {
                       remarkPlugins={[remarkGfm]}
                       className="markdown-body"
                       components={{
-                        code({node, inline, className, children, ...props}) {
+                        code({node, inline, className, children, ...props}: any) {
                           const match = /language-(\w+)/.exec(className || '')
                           return !inline && match ? (
                             <SyntaxHighlighter
-                              style={oneLight}
+                              style={oneLight as any}
                               language={match[1]}
                               PreTag="div"
                               {...props}
