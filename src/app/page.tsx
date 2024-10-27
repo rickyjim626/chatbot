@@ -93,7 +93,14 @@ export default function Home() {
                             {children}
                           </code>
                         )
-                      }
+                      },
+                      p: ({children}) => <p className="text-sm mb-2">{children}</p>,
+                      h1: ({children}) => <h1 className="text-lg font-bold mb-2">{children}</h1>,
+                      h2: ({children}) => <h2 className="text-base font-bold mb-2">{children}</h2>,
+                      h3: ({children}) => <h3 className="text-sm font-bold mb-2">{children}</h3>,
+                      ul: ({children}) => <ul className="text-sm list-disc list-inside mb-2">{children}</ul>,
+                      ol: ({children}) => <ol className="text-sm list-decimal list-inside mb-2">{children}</ol>,
+                      li: ({children}) => <li className="mb-1">{children}</li>,
                     }}
                   >
                     {message.content}
