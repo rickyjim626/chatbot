@@ -30,14 +30,15 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error('网络响应不正常');
+        const errorData = await response.json();
+        throw new Error(`网络响应不正常: ${response.status} ${errorData.error || ''}`);
       }
 
       const data = await response.json();
       setMessages([...newMessages, data]);
     } catch (error) {
       console.error('Error:', error);
-      setMessages([...newMessages, { role: 'assistant', content: '抱歉,发生了错误。请稍后再试。' }]);
+      setMessages([...newMessages, { role: 'assistant', content: `抱歉,发生了错误: ${(error as Error).message}` }]);
     } finally {
       setIsLoading(false);
     }
