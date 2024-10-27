@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -10,6 +10,11 @@ export default function Home() {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +35,7 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`网络响应不正常: ${response.status} ${errorData.error || ''}`);
+        throw new Error(`网络响应不正常: ${response.status}`);
       }
 
       const data = await response.json();
@@ -47,12 +51,13 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="p-6 bg-white dark:bg-gray-800 shadow-sm">
-        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">AI 助手</h1>
+        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">临时AI助手</h1>
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">由XiaojinPro提供</p>
       </header>
       
       <main className="flex-grow flex flex-col items-center justify-center p-6">
         <div className="max-w-3xl w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-          <div className="mb-6 h-[calc(100vh-300px)] overflow-y-auto">
+          <div className="mb-6 h-[calc(100vh-400px)] overflow-y-auto">
             {messages.map((message, index) => (
               <div key={index} className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
                 <div className={`inline-block p-3 rounded-2xl ${message.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'} max-w-[80%]`}>
@@ -93,6 +98,7 @@ export default function Home() {
                 </span>
               </div>
             )}
+            <div ref={messagesEndRef} />
           </div>
           <form onSubmit={handleSubmit} className="flex">
             <input
@@ -100,12 +106,12 @@ export default function Home() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="输入您的问题..."
-              className="flex-grow px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
+              className="flex-grow px-4 py-2 rounded-l-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
             />
             <button 
               type="submit"
               disabled={isLoading}
-              className="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition duration-200 disabled:bg-gray-400"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-r-full transition duration-200 disabled:bg-gray-400"
             >
               发送
             </button>
@@ -114,7 +120,10 @@ export default function Home() {
       </main>
 
       <footer className="p-4 text-center text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 shadow-sm">
-        <p>&copy; 2024 AI 助手. 保留所有权利。</p>
+        <p>&copy; 2024 临时AI助手 by XiaojinPro. 保留所有权利。</p>
+        <p className="mt-2 text-xs">
+          使用说明：这个程序不会保存任何你输入的或收到的信息，这意味着你自己也看不到历史记录，更不会有人保存任何信息。请知悉。
+        </p>
       </footer>
     </div>
   );
